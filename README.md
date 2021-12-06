@@ -41,3 +41,6 @@ There are some test cases provided in the `test.py` file.
 Note that:
 + You can run the test cases with `python3 test.py`.
 + Usage of the third-party packages is permitted.
++ You should not change the `test.py` file unless you need to change the `PYTHON_ADDR` constant.
++ If you need to `print` something, start the line with `*`.
++ You should not store/retrieve anything on/from the persistent storage.
