@@ -6,42 +6,6 @@ PYTHON_ADDR = "python3"
 FILE_NAME = "node.py"
 run_prefix = PYTHON_ADDR + " " + FILE_NAME
 
-class Node:
-    def __init__(self, cmd):
-        self.cmd = cmd
-        self.process = None
-    
-    def run(self):
-        self.process = subprocess.Popen(self.cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-
-    def terminate(self):
-        self.process.stdin.close()
-        self.process.stdout.close()
-        self.process.terminate()
-        self.process.wait()
-
-    def send_command(self, command, wait_for_commit=True):
-        self.process.stdin.write(command.encode('utf-8'))
-        self.process.stdin.flush()
-        if wait_for_commit:
-            self.read_until_commit_command(command)
-    
-    def read_until_commit_command(self, command):
-        line = self.process.stdout.readline()
-        print(line)
-        while not line.decode().startswith("* commit command: {}".format(command)):
-            line = self.process.stdout.readline()
-            print(line)
-
-    def get_data(self):
-        self.send_command("get \n", wait_for_commit=False)
-        line = self.process.stdout.readline()
-        print(line)
-        while line.decode().startswith("*"):
-            line = self.process.stdout.readline()
-            print(line)
-        return int(line.decode())
-
 class TestBasics(unittest.TestCase):
     def test_add(self):
         print("========== test_add ==========")
@@ -218,6 +182,43 @@ class TestWeird(unittest.TestCase):
         n1.terminate()
         n2.terminate()
         n3.terminate()
+
+class Node:
+    def __init__(self, cmd):
+        self.cmd = cmd
+        self.process = None
+    
+    def run(self):
+        self.process = subprocess.Popen(self.cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
+    def terminate(self):
+        self.process.stdin.close()
+        self.process.stdout.close()
+        self.process.terminate()
+        self.process.wait()
+
+    def send_command(self, command, wait_for_commit=True):
+        self.process.stdin.write(command.encode('utf-8'))
+        self.process.stdin.flush()
+        if wait_for_commit:
+            self.read_until_commit_command(command)
+    
+    def read_until_commit_command(self, command):
+        line = self.process.stdout.readline()
+        print(line)
+        while not line.decode().startswith("* commit command: {}".format(command)):
+            line = self.process.stdout.readline()
+            print(line)
+
+    def get_data(self):
+        self.send_command("get \n", wait_for_commit=False)
+        line = self.process.stdout.readline()
+        print(line)
+        while line.decode().startswith("*"):
+            line = self.process.stdout.readline()
+            print(line)
+        return int(line.decode())
+
 
 if __name__ == '__main__':
     unittest.main()
