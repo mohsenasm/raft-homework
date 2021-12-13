@@ -34,8 +34,8 @@ The requirement is syncing these commands with different instances in an asynchr
 There are some test cases provided in the `test.py` file.
 
 1.  You should use the raft protocol and complete the `TODO` sections in the `node.py` file to pass all test cases.
-2.  Explain how nodes interact with each other in the `test_failure_and_recovery` test case.
-3.  Explain why `test_weird` passes.
+2.  Explain in the Raft terminology, how nodes interact with each other in the `test_failure_and_recovery` test case.
+3.  Explain in the Raft terminology, why `test_weird` passes.
 
 
 Note that:
