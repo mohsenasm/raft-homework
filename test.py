@@ -136,6 +136,8 @@ class TestFailure(unittest.TestCase):
         self.assertEqual(n3.get_data(), -48)
 
         n2.terminate()
+        
+        time.sleep(10)
 
         n1.send_command("mul 2 \n")
         n3.send_command("add -4 \n")
