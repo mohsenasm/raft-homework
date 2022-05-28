@@ -44,3 +44,5 @@ Note that:
 + You should not change the `test.py` file unless you need to change the `PYTHON_ADDR` constant.
 + If you need to `print` something, start the line with `*`.
 + You should not store/retrieve anything on/from the persistent storage.
++ You should not use `time.sleep`, in the `node.py` file, if you use the third-party packages.
++ Please Star :star: this repository to make it reach more people :) :heart:.
