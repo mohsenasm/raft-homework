@@ -1,14 +1,15 @@
-def initialize(init_value: int, my_port: int, other_ports: [int]):
-    pass
+class ConsensusManager:
+    def __init__(self, init_value: int, my_port: int, other_ports: [int]) -> None:
+        pass
 
-def get() -> int:
-    pass
+    def get(self) -> int:
+        pass
 
-def add(value: int):
-    pass
+    def add(self, value: int):
+        pass
 
-def sub(value: int):
-    pass
+    def sub(self, value: int):
+        pass
 
-def mul(value: int):
-    pass
+    def mul(self, value: int):
+        pass

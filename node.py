@@ -1,5 +1,5 @@
 import argparse
-from consensus import initialize, get, add, sub, mul
+from consensus import ConsensusManager
 
 def main():
     parser = argparse.ArgumentParser()
@@ -12,25 +12,25 @@ def main():
     print("* start node", params.my_port, "with init value", int(params.init_value))
     print("* others are:", " ".join(params.other_ports))
 
-    initialize(params.init_value, params.my_port, params.other_ports)
+    consensus_manager = ConsensusManager(params.init_value, params.my_port, params.other_ports)
     
     prompt_text = '* Enter a command: \n'
     line = input(prompt_text)
     while line:
         if line.startswith("add"):
             number = int(line.split()[1])
-            add(number)
+            consensus_manager.add(number)
             print("* commit command:", line, flush=True)
         elif line.startswith("sub"):
             number = int(line.split()[1])
-            sub(number)
+            consensus_manager.sub(number)
             print("* commit command:", line, flush=True)
         elif line.startswith("mul"):
             number = int(line.split()[1])
-            mul(number)
+            consensus_manager.mul(number)
             print("* commit command:", line, flush=True)
         elif line.startswith("get"):
-            print(get())
+            print(consensus_manager.get())
         try:
             line = input(prompt_text)
         except EOFError:
