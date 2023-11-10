@@ -3,15 +3,16 @@ import asyncio.subprocess
 
 PYTHON_ADDR = "python3"
 FILE_NAME = "node.py"
-run_prefix = PYTHON_ADDR + " " + FILE_NAME
+RUN_PREFIX = PYTHON_ADDR + " " + FILE_NAME
+# RUN_PREFIX = PYTHON_ADDR + " " + FILE_NAME + " --async true"
 
 class TestBasics(unittest.IsolatedAsyncioTestCase):
     async def test_add(self):
         print("========== test_add ==========")
 
-        n1 = Node(run_prefix + " -i 0 -m 8001 -o 8002 8003", self)
-        n2 = Node(run_prefix + " -i 0 -m 8002 -o 8001 8003", self)
-        n3 = Node(run_prefix + " -i 0 -m 8003 -o 8002 8001", self)
+        n1 = Node(RUN_PREFIX + " -i 0 -m 8001 -o 8002 8003", self)
+        n2 = Node(RUN_PREFIX + " -i 0 -m 8002 -o 8001 8003", self)
+        n3 = Node(RUN_PREFIX + " -i 0 -m 8003 -o 8002 8001", self)
 
         await n1.run()
         await n2.run()
@@ -36,9 +37,9 @@ class TestBasics(unittest.IsolatedAsyncioTestCase):
     async def test_add_sub_mul(self):
         print("========== test_add_sub_mul ==========")
 
-        n1 = Node(run_prefix + " -i 5 -m 8001 -o 8002 8003", self)
-        n2 = Node(run_prefix + " -i 5 -m 8002 -o 8001 8003", self)
-        n3 = Node(run_prefix + " -i 5 -m 8003 -o 8002 8001", self)
+        n1 = Node(RUN_PREFIX + " -i 5 -m 8001 -o 8002 8003", self)
+        n2 = Node(RUN_PREFIX + " -i 5 -m 8002 -o 8001 8003", self)
+        n3 = Node(RUN_PREFIX + " -i 5 -m 8003 -o 8002 8001", self)
 
         await n1.run()
         await n2.run()
@@ -67,9 +68,9 @@ class TestBasics(unittest.IsolatedAsyncioTestCase):
     
     async def test_add_sub_mul_heavy(self):
         print("========== test_add_sub_mul_heavy ==========")
-        n1 = Node(run_prefix + " -i 8 -m 8001 -o 8002 8003", self)
-        n2 = Node(run_prefix + " -i 8 -m 8002 -o 8001 8003", self)
-        n3 = Node(run_prefix + " -i 8 -m 8003 -o 8002 8001", self)
+        n1 = Node(RUN_PREFIX + " -i 8 -m 8001 -o 8002 8003", self)
+        n2 = Node(RUN_PREFIX + " -i 8 -m 8002 -o 8001 8003", self)
+        n3 = Node(RUN_PREFIX + " -i 8 -m 8003 -o 8002 8001", self)
 
         await n1.run()
         await n2.run()
@@ -114,9 +115,9 @@ class TestFailure(unittest.IsolatedAsyncioTestCase):
     async def test_failure_and_recovery(self):
         print("========== test_failure_and_recovery ==========")
 
-        n1 = Node(run_prefix + " -i 2 -m 8001 -o 8002 8003", self)
-        n2 = Node(run_prefix + " -i 2 -m 8002 -o 8001 8003", self)
-        n3 = Node(run_prefix + " -i 2 -m 8003 -o 8002 8001", self)
+        n1 = Node(RUN_PREFIX + " -i 2 -m 8001 -o 8002 8003", self)
+        n2 = Node(RUN_PREFIX + " -i 2 -m 8002 -o 8001 8003", self)
+        n3 = Node(RUN_PREFIX + " -i 2 -m 8003 -o 8002 8001", self)
 
         await n1.run()
         await n2.run()
@@ -160,9 +161,9 @@ class TestWeird(unittest.IsolatedAsyncioTestCase):
     async def test_weird(self): # should pass
         print("========== test_weird ==========")
 
-        n1 = Node(run_prefix + " -i 0 -m 8001 -o 8002 8003", self)
-        n2 = Node(run_prefix + " -i 4 -m 8002 -o 8001 8003", self)
-        n3 = Node(run_prefix + " -i 0 -m 8003 -o 8002 8001", self)
+        n1 = Node(RUN_PREFIX + " -i 0 -m 8001 -o 8002 8003", self)
+        n2 = Node(RUN_PREFIX + " -i 4 -m 8002 -o 8001 8003", self)
+        n3 = Node(RUN_PREFIX + " -i 0 -m 8003 -o 8002 8001", self)
 
         await n1.run()
         await n2.run()

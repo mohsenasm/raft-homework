@@ -2,20 +2,20 @@ class ConsensusManager():
     def __init__(self, init_value: int, my_port: int, other_ports: [int]) -> None:
         pass
 
-    def start(self):
+    async def start(self):
         pass
 
-    def get(self) -> int:
-        pass
-
-    # returns when the command is commited
-    def add(self, value: int):
+    async def get(self) -> int:
         pass
 
     # returns when the command is commited
-    def sub(self, value: int):
+    async def add(self, value: int):
         pass
 
     # returns when the command is commited
-    def mul(self, value: int):
+    async def sub(self, value: int):
+        pass
+
+    # returns when the command is commited
+    async def mul(self, value: int):
         pass
