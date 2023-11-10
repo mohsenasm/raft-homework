@@ -207,16 +207,19 @@ class Node:
             print("wait for commit:", command)
             self.read_until_commit_command(command)
     
+    def read_line(self):
+        return self.process.stdout.readline().decode().strip()
+    
     def read_until_commit_command(self, command):
-        line = self.process.stdout.readline().decode().strip()
+        line = self.read_line()
         while not line.startswith("* commit command: {}".format(command)):
-            line = self.process.stdout.readline().decode().strip()
+            line = self.read_line()
 
     def get_data(self):
         self.send_command("get", wait_for_commit=False)
-        line = self.process.stdout.readline().decode().strip()
+        line = self.read_line()
         while not line.startswith("* current value is:"):
-            line = self.process.stdout.readline().decode().strip()
+            line = self.read_line()
         value = int(line.split(":")[1].strip())
         print("got value:", value)
         return value
