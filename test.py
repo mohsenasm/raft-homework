@@ -20,9 +20,9 @@ class TestBasics(unittest.TestCase):
 
         time.sleep(2)
 
-        n1.send_command("add 10 \n")
-        n2.send_command("add -5 \n")
-        n3.send_command("add 1 \n")
+        n1.send_command("add 10")
+        n2.send_command("add -5")
+        n3.send_command("add 1")
 
         time.sleep(2)
 
@@ -49,11 +49,11 @@ class TestBasics(unittest.TestCase):
 
         expected_value = 5
 
-        n1.send_command("add 10 \n")
+        n1.send_command("add 10")
         expected_value += 10
-        n2.send_command("sub -5 \n")
+        n2.send_command("sub -5")
         expected_value -= -5
-        n3.send_command("mul 2 \n")
+        n3.send_command("mul 2")
         expected_value *= 2
 
         time.sleep(2)
@@ -80,25 +80,25 @@ class TestBasics(unittest.TestCase):
 
         expected_value = 8
 
-        n1.send_command("add 10 \n")
+        n1.send_command("add 10")
         expected_value += 10
-        n2.send_command("sub -5 \n")
+        n2.send_command("sub -5")
         expected_value -= -5
-        n3.send_command("mul 2 \n")
+        n3.send_command("mul 2")
         expected_value *= 2
 
-        n1.send_command("sub 2 \n")
+        n1.send_command("sub 2")
         expected_value -= 2
-        n2.send_command("add -3 \n")
+        n2.send_command("add -3")
         expected_value += -3
-        n3.send_command("mul 4 \n")
+        n3.send_command("mul 4")
         expected_value *= 4
         
-        n1.send_command("mul 7 \n")
+        n1.send_command("mul 7")
         expected_value *= 7
-        n2.send_command("add -12 \n")
+        n2.send_command("add -12")
         expected_value += -12
-        n3.send_command("sub 9 \n")
+        n3.send_command("sub 9")
         expected_value -= 9
 
         time.sleep(2)
@@ -125,9 +125,9 @@ class TestFailure(unittest.TestCase):
 
         time.sleep(2)
 
-        n1.send_command("add 5 \n")
-        n2.send_command("sub -5 \n")
-        n3.send_command("mul -4 \n")
+        n1.send_command("add 5")
+        n2.send_command("sub -5")
+        n3.send_command("mul -4")
 
         time.sleep(2)
 
@@ -139,8 +139,8 @@ class TestFailure(unittest.TestCase):
         
         time.sleep(10)
 
-        n1.send_command("mul 2 \n")
-        n3.send_command("add -4 \n")
+        n1.send_command("mul 2")
+        n3.send_command("add -4")
 
         time.sleep(2)
 
@@ -171,9 +171,9 @@ class TestWeird(unittest.TestCase):
 
         time.sleep(2)
 
-        n1.send_command("add 10 \n")
-        n2.send_command("add -5 \n")
-        n3.send_command("add 1 \n")
+        n1.send_command("add 10")
+        n2.send_command("add -5")
+        n3.send_command("add 1")
 
         time.sleep(2)
 
@@ -200,26 +200,26 @@ class Node:
         self.process.wait()
 
     def send_command(self, command, wait_for_commit=True):
-        self.process.stdin.write(command.encode('utf-8'))
+        print("sending command:", command)
+        self.process.stdin.write((command+"\n").encode('utf-8') )
         self.process.stdin.flush()
         if wait_for_commit:
+            print("wait for commit:", command)
             self.read_until_commit_command(command)
     
     def read_until_commit_command(self, command):
-        line = self.process.stdout.readline()
-        print(line)
-        while not line.decode().startswith("* commit command: {}".format(command)):
-            line = self.process.stdout.readline()
-            print(line)
+        line = self.process.stdout.readline().decode().strip()
+        while not line.startswith("* commit command: {}".format(command)):
+            line = self.process.stdout.readline().decode().strip()
 
     def get_data(self):
-        self.send_command("get \n", wait_for_commit=False)
-        line = self.process.stdout.readline()
-        print(line)
-        while line.decode().startswith("*"):
-            line = self.process.stdout.readline()
-            print(line)
-        return int(line.decode())
+        self.send_command("get", wait_for_commit=False)
+        line = self.process.stdout.readline().decode().strip()
+        while not line.startswith("* current value is:"):
+            line = self.process.stdout.readline().decode().strip()
+        value = int(line.split(":")[1].strip())
+        print("got value:", value)
+        return value
 
 
 if __name__ == '__main__':
