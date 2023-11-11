@@ -19,3 +19,6 @@ class ConsensusManager():
     # returns when the command is commited
     def mul(self, value: int):
         pass
+
+    def get_status(self) -> str:
+        return "some_status_for_logging"

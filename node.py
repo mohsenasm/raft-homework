@@ -1,63 +1,55 @@
 import argparse
-import asyncio
+from flask import Flask, request
 
-from consensus import ConsensusManager
-# from consensus_async import ConsensusManager
+# from consensus import ConsensusManager
+from solved_consensus_1 import ConsensusManager
 
-async def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--init_value', dest='init_value', default=0)
-    parser.add_argument('-m', '--my_port', dest='my_port', required=True)
-    parser.add_argument('-o', '--other_ports', dest='other_ports', nargs="+", required=True)
-    parser.add_argument('-a', '--async', dest='use_async', type=bool, required=False, default=False)
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--init_value', dest='init_value', default=0)
+parser.add_argument('-p', '--my_http_port', dest='my_http_port', required=True)
+parser.add_argument('-m', '--my_raft_port', dest='my_raft_port', required=True)
+parser.add_argument('-o', '--others_raft_port', dest='others_raft_port', nargs="+", required=True)
 
-    params = parser.parse_args()
+params = parser.parse_args()
 
-    print("* start node", params.my_port, "with init value", int(params.init_value))
-    print("* others are:", " ".join(params.other_ports))
-    print("* use async:", params.use_async)
+print("* start node", params.my_raft_port, "with init value", int(params.init_value))
+print("* others are:", " ".join(params.others_raft_port))
 
-    consensus_manager = ConsensusManager(int(params.init_value), params.my_port, params.other_ports)
-    if params.use_async:
-        loop = asyncio.get_running_loop()
-        await consensus_manager.start(loop)
-    else:
-        consensus_manager.start()
-    
-    prompt_text = '* Enter a command: \n'
-    line = input(prompt_text)
-    while line:
-        if line.startswith("add"):
-            number = int(line.split()[1])
-            if params.use_async:
-                await consensus_manager.add(number)
-            else:
-                consensus_manager.add(number)
-            print("* commit command:", line, flush=True)
-        elif line.startswith("sub"):
-            number = int(line.split()[1])
-            if params.use_async:
-                await consensus_manager.sub(number)
-            else:
-                consensus_manager.sub(number)
-            print("* commit command:", line, flush=True)
-        elif line.startswith("mul"):
-            number = int(line.split()[1])
-            if params.use_async:
-                await consensus_manager.mul(number)
-            else:
-                consensus_manager.mul(number)
-            print("* commit command:", line, flush=True)
-        elif line.startswith("get"):
-            if params.use_async:
-                value = await consensus_manager.get()
-            else:
-                value = consensus_manager.get()
-            print("* current value is:", value)
-        try:
-            line = input(prompt_text)
-        except EOFError:
-            return
+consensus_manager = ConsensusManager(int(params.init_value), params.my_raft_port, params.others_raft_port)
+consensus_manager.start()
+
+app = Flask(__name__)
+
+@app.route('/get', methods=['GET'])
+def get_data():
+    value = consensus_manager.get()
+    return str(value)
+
+@app.route('/add', methods=['POST'])
+def add_data():
+    value = int(request.form['value'])
+    consensus_manager.add(value)
+    return "commited"
+
+@app.route('/sub', methods=['POST'])
+def sub_data():
+    value = int(request.form['value'])
+    consensus_manager.sub(value)
+    return "commited"
+
+@app.route('/mul', methods=['POST'])
+def mul_data():
+    value = int(request.form['value'])
+    consensus_manager.mul(value)
+    return "commited"
+
+@app.route('/get_status', methods=['GET'])
+def get_status():
+    return str(consensus_manager.get_status())
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # disable flask logs!
+    import flask.cli    
+    flask.cli.show_server_banner = lambda *args: None
+
+    app.run(debug=False, port=params.my_http_port)
