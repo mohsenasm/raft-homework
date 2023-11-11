@@ -19,7 +19,8 @@ async def main():
 
     consensus_manager = ConsensusManager(int(params.init_value), params.my_port, params.other_ports)
     if params.use_async:
-        await consensus_manager.start()
+        loop = asyncio.get_running_loop()
+        await consensus_manager.start(loop)
     else:
         consensus_manager.start()
     

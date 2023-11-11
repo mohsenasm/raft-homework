@@ -2,7 +2,7 @@ class ConsensusManager():
     def __init__(self, init_value: int, my_port: int, other_ports: [int]) -> None:
         pass
 
-    async def start(self):
+    async def start(self, loop):
         pass
 
     async def get(self) -> int:
