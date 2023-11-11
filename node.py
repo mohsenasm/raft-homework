@@ -1,8 +1,7 @@
 import argparse
 from flask import Flask, request
 
-# from consensus import ConsensusManager
-from solved_consensus_1 import ConsensusManager
+from consensus import ConsensusManager
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--init_value', dest='init_value', default=0)
