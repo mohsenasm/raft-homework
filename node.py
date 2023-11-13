@@ -1,5 +1,5 @@
 import argparse
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from consensus import ConsensusManager
 
@@ -17,7 +17,11 @@ print("* others are:", " ".join(params.others_raft_port))
 consensus_manager = ConsensusManager(int(params.init_value), params.my_raft_port, params.others_raft_port)
 consensus_manager.start()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
+
+@app.route('/', methods=['GET'])
+def dashboard():
+    return render_template('node.html')
 
 @app.route('/get', methods=['GET'])
 def get_data():

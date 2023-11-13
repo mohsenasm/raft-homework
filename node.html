@@ -1,0 +1,153 @@
+<html data-bs-theme="dark">
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Node</title>
+    <script>
+      function refreshState() {
+        $.get("/get").done((data) => {
+          $('#state').text(data);
+        });
+      }
+      function onAddClick() {
+        $.post("/add", { value: $("#addValue").val() }).done(refreshState);
+      }
+      function onSubClick() {
+        $.post("/sub", { value: $("#subValue").val() }).done(refreshState);
+      }
+      function onMulClick() {
+        $.post("/mul", { value: $("#mulValue").val() }).done(refreshState);
+      }
+      setInterval(refreshState, 1000);
+      refreshState();
+    </script>
+  </head>
+  <body>
+    <div
+      class="container-lg text-center"
+      style="align-content: center; height: 100%; display: grid"
+    >
+      <div class="row g-2">
+        <div class="col-md-6 offset-md-3 card text-bg-primary">
+          <div
+            class="card-header gap-2 d-flex justify-content-center align-items-center"
+          >
+            Replicated State
+            <!-- <button type="button" class="btn btn-sm btn-light">
+              <i class="fa-solid fa-arrows-rotate"></i> Refresh
+            </button> -->
+          </div>
+          <div class="card-body">
+            <h1 class="card-title" id="state">-</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row g-2 mt-0">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">Addition</div>
+            <div class="card-body">
+              <form>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-default"
+                    >add</span
+                  >
+                  <input
+                    id="addValue"
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default"
+                  />
+                </div>
+                <div class="btn btn-primary" onclick="onAddClick();">
+                  <i class="fa-solid fa-plus"></i>
+                  Add
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">Subtraction</div>
+            <div class="card-body">
+              <form>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-default"
+                    >sub</span
+                  >
+                  <input
+                    id="subValue"
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default"
+                  />
+                </div>
+                <div
+                  type="submit"
+                  class="btn btn-primary"
+                  onclick="onSubClick();"
+                >
+                  <i class="fa-solid fa-minus"></i>
+                  Subtract
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">Multiplication</div>
+            <div class="card-body">
+              <form>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-default"
+                    >mul</span
+                  >
+                  <input
+                    id="mulValue"
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default"
+                  />
+                </div>
+                <div
+                  type="submit"
+                  class="btn btn-primary"
+                  onclick="onMulClick();"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                  Multiply
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
