@@ -1,48 +1,34 @@
-
 # Raft Homework
 
 This repo is provided to test your basic knowledge of the *Raft consensus algorithm* and help you to implement and test a basic use case of this algorithm.
 
-## The Node Program
+Here we have an incomplete implementation of a distributed calculator. This program has some HTTP POST APIs to receive addition, subtraction, and multiplication commands, as well as an HTTP GET API to return the current replicated result. It also has a web-based dashboard to facilitate issuing these commands and seeing the result on each node.
 
-There are two files in this repo, `node.py` and `test.py`.
+The requirement is syncing these commands with different nodes in an asynchronous and fault-resilient way.
 
-The `node.py` is a program that could interact with other `node.py`s to maintain an integer and perform some operations on it. This program will get these inputs as command-line arguments:
+# Demo & Development
 
-| Flag | Type | Description |
-|------|------|-------------|
-| --init_value | Integer | The initial value for the state parameter |
-| --my_port | Integer | The port of this node that will be used for communication with other nodes |
-| --other_ports | Integers separated by space | The port of the other nodes |
+You can run the nodes manually and use the web-based dashboards to test your implementation.
 
-The `node.py` supports these four operations:
-
-| Operation | Operand | Example Command | Meaning |
-|----------|----------|---------|------|
-| add | An integer | `add -5` | Add the input to the state
-| sub | An integer | `sub 22` | Subtract the input from the state
-| mul | An integer | `mul 1` | Multiply the input and the state
-| get | - | `get` | Print the state
-
-
-The user can write these commands in the node's stdin and see the output (if any) in the stdout. Users can issue any command to any node.
-
-The requirement is syncing these commands with different instances in an asynchronous and fault resilient way.
+```bash
+python3 node.py -i 50 -m 10101 -o 10103 10102 -p 9010
+python3 node.py -i 50 -m 10102 -o 10103 10101 -p 9020
+python3 node.py -i 50 -m 10103 -o 10102 10101 -p 9030
+```
 
 ## What you need to do
 
-There are some test cases provided in the `test.py` file.
+This homework has three sections:
 
-1.  You should use the raft protocol and complete the `TODO` sections in the `node.py` file to pass all test cases.
-2.  Explain in the Raft terminology, how nodes interact with each other in the `test_failure_and_recovery` test case.
-3.  Explain in the Raft terminology, why `test_weird` passes.
-
+1.  You should use the raft protocol and complete the `consensus.py` file to pass all test cases. There is no need to change other files.
+  + There are some test cases provided in the `test.py` file. You can run them with `python3 test.py`.
+3.  Explain in the Raft terminology, how nodes interact with each other in the `test_failure_and_recovery` test case.
+4.  Explain in the Raft terminology, why `test_weird` passes.
 
 Note that:
-+ You can run the test cases with `python3 test.py`.
 + Usage of the third-party packages is permitted.
-+ You should not change the `test.py` file unless you need to change the `PYTHON_ADDR` constant.
-+ If you need to `print` something, start the line with `*`.
-+ You should not store/retrieve anything on/from the persistent storage.
-+ You should not use `time.sleep`, in the `node.py` file, if you use the third-party packages.
++ If you want to solve this homework with another programming language, you can write your own `node` program and still use `python3 test.py` to test it. In this case, you should change `RUN_PREFIX` in the `test.py` file to address the executable of your `node` program.
++ You should not change the `test.py` file unless you need to change the `PYTHON_ADDR` or `RUN_PREFIX` constants.
++ You should not store/retrieve anything on/from the persistent storage. All communication between the `nodes` should be network-based.
++ You should not use `time.sleep` in the `consensus.py` file if you use the third-party packages.
 + Please Star :star: this repository to make it reach more people :) :heart:.
