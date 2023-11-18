@@ -1,10 +1,8 @@
 # Raft Homework
 
-This repo is provided to test your basic knowledge of the *Raft consensus algorithm* and help you to implement and test a basic use case of this algorithm.
+Here we have an incomplete implementation of a **distributed calculator**. This program has some HTTP POST APIs to receive `addition`, `subtraction`, and `multiplication` commands, as well as an HTTP GET API to return the current replicated result. It also has a web-based dashboard to facilitate issuing these commands and seeing the result on each node.
 
-Here we have an incomplete implementation of a distributed calculator. This program has some HTTP POST APIs to receive addition, subtraction, and multiplication commands, as well as an HTTP GET API to return the current replicated result. It also has a web-based dashboard to facilitate issuing these commands and seeing the result on each node.
-
-The requirement is syncing these commands with different nodes in an asynchronous and fault-resilient way.
+The requirement is syncing these commands with the other nodes in an asynchronous and fault-resilient way, with the _Raft consensus algorithm_.
 
 # Demo & Development
 
@@ -16,12 +14,14 @@ python3 node.py -i 50 -m 10102 -o 10103 10101 -p 9020
 python3 node.py -i 50 -m 10103 -o 10102 10101 -p 9030
 ```
 
+![demo](https://github.com/mohsenasm/raft-homework/assets/9164422/fc88ec50-d7db-40ac-8664-573726223dc1)
+
 ## What you need to do
 
 This homework has three sections:
 
 1.  You should use the raft protocol and complete the `consensus.py` file to pass all test cases. There is no need to change other files.
-  + There are some test cases provided in the `test.py` file. You can run them with `python3 test.py`.
+     + There are some test cases provided in the `test.py` file. You can run them with `python3 test.py`.
 3.  Explain in the Raft terminology, how nodes interact with each other in the `test_failure_and_recovery` test case.
 4.  Explain in the Raft terminology, why `test_weird` passes.
 
