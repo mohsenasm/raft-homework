@@ -2,7 +2,7 @@
 
 Here we have an incomplete implementation of a **distributed calculator**. This program has some HTTP POST APIs to receive `addition`, `subtraction`, and `multiplication` commands, as well as an HTTP GET API to return the current replicated result. It also has a web-based dashboard to facilitate issuing these commands and seeing the result on each node.
 
-The requirement is syncing these commands with the other nodes in an asynchronous and fault-resilient way, with the _Raft consensus algorithm_.
+The requirement is syncing these commands with the other nodes in an asynchronous and fault-resilient way, with the [_Raft consensus algorithm_](https://raft.github.io).
 
 # Demo & Development
 
