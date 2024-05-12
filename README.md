@@ -31,4 +31,3 @@ Note that:
 + You should not change the `test.py` file unless you need to change the `PYTHON_ADDR` or `RUN_PREFIX` constants.
 + You should not store/retrieve anything on/from the persistent storage. All communication between the `nodes` should be network-based.
 + You should not use `time.sleep` in the `consensus.py` file if you use the third-party packages.
-+ Please Star :star: this repository to make it reach more people :) :heart:.
